@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompts By Soham | The Studio Directory</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            /* COLOR PALETTE - MINIMAL & PREMIUM RED ACCENT */
+            --bg-left: #F4F4F5;    /* Zinc 100 - Soft light grey */
+            --bg-right: #FFFFFF;   /* Pure White */
+            --text-dark: #09090B;  /* Zinc 950 - Near black */
+            --text-muted: #71717A; /* Zinc 500 - Soft grey */
+            --accent: #E60000;     /* Premium Striking Red */
+            --border: #E4E4E7;     /* Zinc 200 - Very subtle lines */
+            
+            --smooth: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-right);
+            color: var(--text-dark);
+            font-family: 'DM Sans', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            display: flex;
+        }
+
+        /* --- SUBTLE TEXTURE --- */
+        .texture {
+            position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: 0.03;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        /* --- ASYMMETRICAL SPLIT LAYOUT --- */
+        
+        /* LEFT PANE: Sticky Intro */
+        .pane-left {
+            width: 40%; height: 100vh; background-color: var(--bg-left);
+            position: sticky; top: 0; display: flex; flex-direction: column;
+            justify-content: space-between; padding: 80px 60px;
+            border-right: 1px solid var(--border);
+        }
+
+        .brand-label {
+            font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 2px; color: var(--accent);
+            display: flex; align-items: center; gap: 10px; margin-bottom: 40px;
+        }
+        .brand-label::before { content: ''; width: 30px; height: 2px; background: var(--accent); }
+
+        .title {
+            font-family: 'Space Grotesk', sans-serif; font-size: clamp(3rem, 5vw, 5rem);
+            font-weight: 700; line-height: 1; letter-spacing: -2px; margin-bottom: 24px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem; color: var(--text-muted); line-height: 1.6; max-width: 400px;
+        }
+
+        .social-link {
+            display: inline-flex; align-items: center; gap: 12px;
+            font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700;
+            color: var(--text-dark); text-decoration: none; transition: color 0.3s ease;
+        }
+        .social-link:hover { color: var(--accent); }
+
+        /* RIGHT PANE: Scrolling Content */
+        .pane-right {
+            width: 60%; min-height: 100vh; padding: 80px 60px;
+        }
+
+        .feed-header {
+            font-family: 'Space Grotesk', sans-serif; font-size: 1rem; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 60px;
+            padding-bottom: 20px; border-bottom: 1px solid var(--border);
+        }
+
+        /* --- FLAT & CLEAN PROMPT CARDS --- */
+        .prompt-block {
+            margin-bottom: 80px;
+        }
+
+        .image-container {
+            width: 100%; border-radius: 12px; overflow: hidden; margin-bottom: 30px;
+            background: #f0f0f0; border: 1px solid var(--border);
+        }
+        .image-container img {
+            width: 100%; height: auto; display: block; object-fit: cover;
+            transition: transform 0.6s var(--smooth);
+        }
+        .image-container:hover img { transform: scale(1.03); }
+
+        .block-meta { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+        
+        .block-title {
+            font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 700;
+            color: var(--text-dark); line-height: 1.2;
+        }
+
+        .raw-prompt-text { display: none; } /* Hidden text */
+
+        /* Premium Copy Button */
+        .btn-copy {
+            background: transparent; color: var(--text-dark);
+            border: 2px solid var(--text-dark); border-radius: 100px;
+            padding: 14px 32px; font-family: 'Space Grotesk', sans-serif; font-size: 0.95rem;
+            font-weight: 700; text-transform: uppercase; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 10px;
+            transition: all 0.3s ease; white-space: nowrap;
+        }
+        .btn-copy:hover {
+            background: var(--text-dark); color: #fff; transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        /* --- TOAST --- */
+        .toast {
+            position: fixed; top: 30px; right: 30px; background: var(--text-dark); color: #fff;
+            padding: 16px 32px; border-radius: 8px; font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15); opacity: 0; transform: translateY(-20px);
+            pointer-events: none; transition: all 0.4s var(--smooth); z-index: 10000;
+        }
+        .toast.show { opacity: 1; transform: translateY(0); }
+
+        /* --- EXACT DIET COKE WIDGET (Red Theme) --- */
+        .coke-wrapper { position: fixed; bottom: 24px; right: 24px; z-index: 100; display: flex; flex-direction: column; align-items: flex-end; }
+        .tap-here-badge { background: var(--accent); color: #fff; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 12px; border-radius: 20px; margin-bottom: 10px; margin-right: 5px; box-shadow: 0 4px 15px rgba(230, 0, 0, 0.3); animation: bounce-badge 2s infinite ease-in-out; pointer-events: none; position: relative; font-family: 'DM Sans', sans-serif; }
+        .tap-here-badge::after { content: ''; position: absolute; bottom: -4px; right: 15px; width: 8px; height: 8px; background: var(--accent); transform: rotate(45deg); }
+        @keyframes bounce-badge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+        
+        .coke-widget { background: #ffffff; border: 1px solid var(--border); border-radius: 100px; padding: 10px; display: flex; align-items: center; gap: 12px; overflow: hidden; width: 62px; height: 62px; transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        .coke-icon { display: flex; align-items: center; justify-content: center; min-width: 40px; height: 40px; background: var(--bg-left); border-radius: 50%; }
+        .coke-text { font-size: 14px; font-weight: 700; white-space: nowrap; opacity: 0; transition: opacity 0.3s; color: var(--text-dark); font-family: 'DM Sans', sans-serif;}
+        .coke-widget:hover { width: 220px; padding: 10px 24px 10px 10px; background: #fafafa; }
+        .coke-widget:hover .coke-text { opacity: 1; transition-delay: 0.1s; }
+        .coke-widget:hover .coke-svg { animation: float-doodle 1.5s ease-in-out infinite alternate; }
+        @keyframes float-doodle { 0% { transform: translateY(0) rotate(-2deg); } 100% { transform: translateY(-3px) rotate(4deg); } }
+        
+        /* Exact QR Modal */
+        .qr-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(9, 9, 11, 0.8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 99999; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+        .qr-overlay.active { opacity: 1; pointer-events: all; }
+        .qr-modal { background: #ffffff; border: 1px solid var(--border); border-radius: 24px; padding: 40px 30px; text-align: center; transform: scale(0.95) translateY(20px); transition: all 0.4s ease; position: relative; width: 90vw; max-width: 380px; box-shadow: 0 25px 50px rgba(0,0,0,0.2); }
+        .qr-overlay.active .qr-modal { transform: scale(1) translateY(0); }
+        .close-btn { position: absolute; top: 15px; right: 20px; background: transparent; border: none; color: var(--text-muted); font-size: 28px; cursor: pointer; transition: color 0.3s; }
+        .close-btn:hover { color: var(--text-dark); }
+        .qr-modal h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; margin-bottom: 8px; color: var(--text-dark); }
+        .qr-modal p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px; line-height: 1.5; }
+        .qr-image-wrapper { background: #f4f4f5; padding: 15px; border-radius: 16px; display: inline-block; margin-bottom: 24px; border: 1px solid var(--border); }
+        .qr-image-wrapper img { width: 180px; height: 180px; display: block; border-radius: 8px; }
+        .btn-download { background: var(--accent); color: #fff; border: none; padding: 14px 32px; border-radius: 100px; font-weight: 700; font-size: 1rem; cursor: pointer; width: 100%; font-family: 'Space Grotesk', sans-serif; text-transform: uppercase; transition: background 0.3s; }
+        .btn-download:hover { background: #cc0000; }
+
+        /* --- MOBILE RESPONSIVENESS --- */
+        @media (max-width: 900px) {
+            body { flex-direction: column; }
+            .pane-left { width: 100%; height: auto; position: relative; padding: 60px 5% 40px; border-right: none; border-bottom: 1px solid var(--border); }
+            .pane-right { width: 100%; min-height: auto; padding: 40px 5% 100px; }
+            .block-meta { flex-direction: column; gap: 20px; }
+            .btn-copy { width: 100%; justify-content: center; }
+            .coke-wrapper { bottom: 16px; right: 16px; transform: scale(0.9); transform-origin: bottom right; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="texture"></div>
+
+    <div class="toast" id="copyToast"><i class="fa-solid fa-check"></i> &nbsp; Prompt Copied</div>
+
+    <aside class="pane-left">
+        <div>
+            <div class="brand-label">Made by Soham Medley</div>
+            <h1 class="title">Prompts<br>By Soham.</h1>
+            <p class="subtitle">
+                A for all viral prompts just copy and get'em.
+            </p>
+        </div>
+        
+        <div>
+            <a href="https://instagram.com/dzynsbysoham" target="_blank" class="social-link">
+                <i class="fa-brands fa-instagram"></i> @dzynsbysoham
+            </a>
+        </div>
+    </aside>
+
+    <main class="pane-right">
+        <div class="feed-header">Latest Additions</div>
+
+        <article class="prompt-block">
+            <div class="image-container">
+                <img src="Images/Prompt1.png" alt="Image Enhancing Before and After">
+            </div>
+            
+            <div class="block-meta">
+                <h2 class="block-title">4K Studio<br>Enhancement</h2>
+                
+                <div class="raw-prompt-text">Need background as a white light and exact same pose and face. Enhance this portrait to ultra-realistic, DSLR-level quality. Correct exposure, restore natural skin tones, balance white levels, and improve dynamic range to preserve detail in shadows and highlights.
+
+Sharpen facial features subtly while maintaining natural skin texture — avoid over-smoothing or artificial effects. Reduce noise without losing fine detail. Apply soft, diffused lighting, gentle contrast, and enhance eye clarity for realism.
+
+Keep the edit completely natural with no heavy filters, fake HDR, or over-processing.
+
+Hard Rule: Do NOT alter facial structure, proportions, skin tone, identity, or defining features. Keep the face 100% original — only improve lighting, clarity, and quality</div>
+
+                <button class="btn-copy" onclick="copyPrompt(this)">
+                    <i class="fa-regular fa-copy"></i> Copy Prompt
+                </button>
+            </div>
+        </article>
+        
+        </main>
+
+    <div class="coke-wrapper">
+        <div class="tap-here-badge">Tap Here</div>
+        <div class="coke-widget" onclick="openQRModal()" title="Buy me a Diet Coke">
+            <div class="coke-icon">
+                <svg class="coke-svg" width="28" height="38" viewBox="0 0 60 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs><linearGradient id="silverGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#cbd5e1"/><stop offset="50%" stop-color="#f8fafc"/><stop offset="100%" stop-color="#94a3b8"/></linearGradient></defs>
+                    <path d="M12 15 C12 12 48 12 48 15 L48 85 C48 88 12 88 12 85 Z" fill="url(#silverGrad)" stroke="#ffffff" stroke-width="2"/>
+                    <path d="M10 12 C10 8 50 8 50 12 C50 16 10 16 10 12 Z" fill="#e2e8f0" stroke="#ffffff" stroke-width="2"/>
+                    <path d="M12 85 C12 82 48 82 48 85 C48 88 12 88 12 85 Z" fill="#94a3b8"/>
+                    <path d="M26 10 h8 v3 h-8 z" fill="#475569" rx="1"/>
+                    <g transform="translate(22, 45) rotate(-90)"><text x="0" y="0" font-family="'Brush Script MT', 'Comic Sans MS', cursive" font-size="14" fill="#000000" font-weight="bold">Diet</text></g>
+                    <g transform="translate(42, 80) rotate(-90)"><text x="0" y="0" font-family="Georgia, 'Times New Roman', serif" font-size="28" fill="#E60000" font-weight="900" letter-spacing="-1">Coke</text></g>
+                    <circle cx="18" cy="30" r="1.5" fill="#ffffff"/><circle cx="42" cy="50" r="2" fill="#ffffff"/><circle cx="20" cy="70" r="1.5" fill="#ffffff"/>
+                </svg>
+            </div>
+            <div class="coke-text">Buy me a Diet Coke</div>
+        </div>
+    </div>
+
+    <div class="qr-overlay" id="qrOverlay" onclick="closeQRModal(event)">
+        <div class="qr-modal">
+            <button class="close-btn" onclick="closeQRModal(event)">&times;</button>
+            <h3>Buy me a Diet Coke</h3>
+            <p>Scan the QR code below to support my creative work!</p>
+            <div class="qr-image-wrapper"><img src="Images/pay.png" alt="Payment QR Code"></div>
+            <button class="btn-download" onclick="downloadQR()">Download Image</button>
+        </div>
+    </div>
+
+    <script>
+        // Clean Copy Logic
+        function copyPrompt(btn) {
+            const block = btn.closest('.prompt-block');
+            const text = block.querySelector('.raw-prompt-text').innerText;
+
+            navigator.clipboard.writeText(text).then(() => {
+                const originalHtml = btn.innerHTML;
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied';
+                btn.style.background = "var(--text-dark)";
+                btn.style.color = "#ffffff";
+
+                const toast = document.getElementById('copyToast');
+                toast.classList.add('show');
+
+                setTimeout(() => {
+                    btn.innerHTML = originalHtml;
+                    btn.style.background = "transparent";
+                    btn.style.color = "var(--text-dark)";
+                    toast.classList.remove('show');
+                }, 2000);
+            });
+        }
+
+        // EXACT QR Modal Logic
+        function openQRModal() { document.getElementById('qrOverlay').classList.add('active'); }
+        function closeQRModal(e) { if (e.target.id === 'qrOverlay' || e.target.classList.contains('close-btn')) { document.getElementById('qrOverlay').classList.remove('active'); } }
+        function downloadQR() { const link = document.createElement('a'); link.href = 'Images/pay.png'; link.download = 'Soham_Payment_QR.png'; document.body.appendChild(link); link.click(); document.body.removeChild(link); }
+    </script>
+</body>
+</html>
