@@ -25,6 +25,11 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px; /* Accounts for fixed navbar */
+        }
+
         body {
             background-color: var(--bg-right);
             color: var(--text-dark);
@@ -38,6 +43,38 @@
         .texture {
             position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: 0.03;
             background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        /* --- NAVIGATION BAR --- */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 60%;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 20px 60px;
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+        }
+
+        .nav-link {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            text-decoration: none;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--accent);
         }
 
         /* --- ASYMMETRICAL SPLIT LAYOUT --- */
@@ -75,7 +112,7 @@
 
         /* RIGHT PANE: Scrolling Content */
         .pane-right {
-            width: 60%; min-height: 100vh; padding: 80px 60px;
+            width: 60%; min-height: 100vh; padding: 120px 60px 80px 60px; /* Top padding adjusted for nav */
         }
 
         .feed-header {
@@ -124,7 +161,7 @@
 
         /* --- TOAST --- */
         .toast {
-            position: fixed; top: 30px; right: 30px; background: var(--text-dark); color: #fff;
+            position: fixed; top: 80px; right: 30px; background: var(--text-dark); color: #fff;
             padding: 16px 32px; border-radius: 8px; font-family: 'Space Grotesk', sans-serif;
             font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.15); opacity: 0; transform: translateY(-20px);
@@ -135,7 +172,7 @@
         /* --- EXACT DIET COKE WIDGET (Red Theme) --- */
         .coke-wrapper { position: fixed; bottom: 24px; right: 24px; z-index: 100; display: flex; flex-direction: column; align-items: flex-end; }
         .tap-here-badge { background: var(--accent); color: #fff; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 12px; border-radius: 20px; margin-bottom: 10px; margin-right: 5px; box-shadow: 0 4px 15px rgba(230, 0, 0, 0.3); animation: bounce-badge 2s infinite ease-in-out; pointer-events: none; position: relative; font-family: 'DM Sans', sans-serif; }
-        .tap-here-badge::after { content: ''; position: absolute; bottom: -4px; right: 15px; width: 8px; height: 8px; background: var(--accent); transform: rotate(45deg); }
+        .tap-here-badge::after { content: absolute; bottom: -4px; right: 15px; width: 8px; height: 8px; background: var(--accent); transform: rotate(45deg); }
         @keyframes bounce-badge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
         
         .coke-widget { background: #ffffff; border: 1px solid var(--border); border-radius: 100px; padding: 10px; display: flex; align-items: center; gap: 12px; overflow: hidden; width: 62px; height: 62px; transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
@@ -163,7 +200,8 @@
         /* --- MOBILE RESPONSIVENESS --- */
         @media (max-width: 900px) {
             body { flex-direction: column; }
-            .pane-left { width: 100%; height: auto; position: relative; padding: 60px 5% 40px; border-right: none; border-bottom: 1px solid var(--border); }
+            .top-nav { width: 100%; justify-content: center; padding: 15px 5%; background: rgba(244, 244, 245, 0.95); }
+            .pane-left { width: 100%; height: auto; position: relative; padding: 100px 5% 40px; border-right: none; border-bottom: 1px solid var(--border); }
             .pane-right { width: 100%; min-height: auto; padding: 40px 5% 100px; }
             .block-meta { flex-direction: column; gap: 20px; }
             .btn-copy { width: 100%; justify-content: center; }
@@ -174,6 +212,11 @@
 <body>
 
     <div class="texture"></div>
+
+    <nav class="top-nav">
+        <a href="#prompt-1" class="nav-link">4K Studio</a>
+        <a href="#prompt-2" class="nav-link">4K Relight</a>
+    </nav>
 
     <div class="toast" id="copyToast"><i class="fa-solid fa-check"></i> &nbsp; Prompt Copied</div>
 
@@ -194,9 +237,9 @@
     </aside>
 
     <main class="pane-right">
-        <div class="feed-header">Latest Additions</div>
+       
 
-        <article class="prompt-block">
+        <article class="prompt-block" id="prompt-1">
             <div class="image-container">
                 <img src="Images/prompt1.png" alt="Image Enhancing Before and After">
             </div>
@@ -217,8 +260,27 @@ Hard Rule: Do NOT alter facial structure, proportions, skin tone, identity, or d
                 </button>
             </div>
         </article>
+
+        <article class="prompt-block" id="prompt-2">
+            <div class="image-container">
+                <img src="Images/prompt2.png" alt="4K Relight Before and After">
+            </div>
+            
+            <div class="block-meta">
+                <h2 class="block-title">4K<br>Relight</h2>
+                
+                <div class="raw-prompt-text">Apply a clearly noticeable cinematic relight transformation to the original photograph while preserving 100% of the subject identity, facial structure, pose, clothing, camera angle, composition, and background. Make the final image visibly darker than the original, with deep rich shadows, moody contrast, dramatic tonal depth, and a premium cinematic atmosphere.
+Add strategically placed intense glow only on key highlight points of the image: facial highlights, eyes, catchlights, hair edges, shoulder contours, bright clothing details, reflective surfaces, and selected background light sources. The glow must be sharp, luminous, and concentrated, creating strong visual contrast between dark shadow regions and illuminated focal points.
+Enhance the separation between dark blacks, rich midtones, and glowing whites so the before-and-after difference is immediately obvious. Emphasize cinematic light sculpting, bold rim light, dramatic contour shaping, glossy highlight transitions, stronger background separation, and selective radiant bloom on focal details only.
+Luxury dark editorial finish, 3x upscale, ultra sharp texture fidelity, crystal-clear micro-details, cinematic premium high-resolution output.</div>
+
+                <button class="btn-copy" onclick="copyPrompt(this)">
+                    <i class="fa-regular fa-copy"></i> Copy Prompt
+                </button>
+            </div>
+        </article>
         
-        </main>
+    </main>
 
     <div class="coke-wrapper">
         <div class="tap-here-badge">Tap Here</div>
