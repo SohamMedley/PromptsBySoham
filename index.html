@@ -56,15 +56,26 @@
             -webkit-backdrop-filter: blur(12px);
             padding: 20px 60px;
             display: flex;
-            gap: 30px;
+            gap: 20px; /* Adjusted gap to fit more links */
             align-items: center;
             border-bottom: 1px solid var(--border);
             z-index: 1000;
+            overflow-x: auto; /* Allows scrolling if it gets too wide */
+            white-space: nowrap;
+        }
+
+        /* Hide scrollbar for top-nav */
+        .top-nav::-webkit-scrollbar {
+            display: none;
+        }
+        .top-nav {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
 
         .nav-link {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 700;
             color: var(--text-muted);
             text-transform: uppercase;
@@ -200,7 +211,7 @@
         /* --- MOBILE RESPONSIVENESS --- */
         @media (max-width: 900px) {
             body { flex-direction: column; }
-            .top-nav { width: 100%; justify-content: center; padding: 15px 5%; background: rgba(244, 244, 245, 0.95); }
+            .top-nav { width: 100%; justify-content: flex-start; padding: 15px 5%; background: rgba(244, 244, 245, 0.95); }
             .pane-left { width: 100%; height: auto; position: relative; padding: 100px 5% 40px; border-right: none; border-bottom: 1px solid var(--border); }
             .pane-right { width: 100%; min-height: auto; padding: 40px 5% 100px; }
             .block-meta { flex-direction: column; gap: 20px; }
@@ -218,6 +229,9 @@
         <a href="#prompt-2" class="nav-link">4K Relight</a>
         <a href="#prompt-3" class="nav-link">GTA 6 Styled</a>
         <a href="#prompt-4" class="nav-link">Cinematic Styled</a>
+        <a href="#prompt-5" class="nav-link">Dark Cinematic</a>
+        <a href="#prompt-6" class="nav-link">Fire Cinematic</a>
+        <a href="#prompt-7" class="nav-link">Night Flash</a>
     </nav>
 
     <div class="toast" id="copyToast"><i class="fa-solid fa-check"></i> &nbsp; Prompt Copied</div>
@@ -338,6 +352,104 @@ Add subtle volumetric atmosphere with visible light beams to enhance depth and s
 Maintain a darker base for stronger contrast and visual impact. Keep color intensity balanced while allowing light sources to stand out. Preserve identity, pose, clothing, and composition accurately.
 
 Transform the lighting with dynamic light elements without redrawing the subject.</div>
+
+                <button class="btn-copy" onclick="copyPrompt(this)">
+                    <i class="fa-regular fa-copy"></i> Copy Prompt
+                </button>
+            </div>
+        </article>
+        
+        <article class="prompt-block" id="prompt-5">
+            <div class="image-container">
+                <img src="Images/prompt5.png" alt="Dark Cinematic W/ Jewel Glow Before and After">
+            </div>
+            
+            <div class="block-meta">
+                <h2 class="block-title">Dark Cinematic<br>W/ Jewel Glow</h2>
+                
+                <div class="raw-prompt-text">FULL cinematic remaster of the original image with dramatic relighting and high-end fashion editorial quality.
+Preserve identity, pose, and outfit, but completely reinterpret lighting, contrast, and atmosphere.
+Lighting:
+strong directional studio lighting, deep shadows, high contrast chiaroscuro
+bright specular highlights on jewelry and skin
+dark background falloff, spotlight effect on subject
+Exposure:
+intentionally underexposed base with controlled highlight bloom
+crushed blacks with preserved micro-details in shadows
+Jewelry focus:
+extreme shine and brilliance on chains, pendants, and metal
+sharp reflective highlights, diamonds sparkling under hard light
+Color grading:
+dark, moody, desaturated tones
+cool shadows, slightly metallic feel
+high contrast luxury editorial grading (NOT natural)
+Texture:
+ultra high definition, crisp details, visible pores, fabric texture
+slight cinematic grain for analog feel
+Atmosphere:
+gritty underground rap aesthetic, dramatic, raw, intense
+looks like a high-budget magazine shoot in a dark studio
+Lens:
+85mm portrait, shallow depth of field, subject isolated
+IMPORTANT:
+- keep same person and outfit
+- do NOT smooth skin excessively
+- do NOT flatten lighting
+- push contrast, lighting, and mood aggressively</div>
+
+                <button class="btn-copy" onclick="copyPrompt(this)">
+                    <i class="fa-regular fa-copy"></i> Copy Prompt
+                </button>
+            </div>
+        </article>
+
+        <article class="prompt-block" id="prompt-6">
+            <div class="image-container">
+                <img src="Images/prompt6.png" alt="Fire Cinematic Before and After">
+            </div>
+            
+            <div class="block-meta">
+                <h2 class="block-title">Fire<br>Cinematic</h2>
+                
+                <div class="raw-prompt-text">Create a dark, intense action poster with deep burnt orange and fiery red color grading.
+
+Add strong warm key light from one side to sculpt the face and beard with dramatic shadows.
+
+Enhance skin texture, beard details, and fabric folds with hyper-realistic sharpness.
+
+Add glowing ember particles floating in the air and subtle smoke diffusion around the subject.
+
+Background should have soft fire glow, atmospheric haze, and cinematic depth separation.
+
+Increase contrast heavily while maintaining highlight detail.
+
+Add controlled bloom to highlights, deep cinematic blacks, slight vignette, HDR tone mapping, ultra-detailed 8k, epic revenge movie poster style.</div>
+
+                <button class="btn-copy" onclick="copyPrompt(this)">
+                    <i class="fa-regular fa-copy"></i> Copy Prompt
+                </button>
+            </div>
+        </article>
+
+        <article class="prompt-block" id="prompt-7">
+            <div class="image-container">
+                <img src="Images/prompt7.png" alt="Night Flash Before and After">
+            </div>
+            
+            <div class="block-meta">
+                <h2 class="block-title">Night<br>Flash</h2>
+                
+                <div class="raw-prompt-text">Apply a bold night-flash aesthetic to the photo and remove the iPhone light glares, starburst patterns, light scattering, and diffraction spikes from night lights, while fully preserving original detail of the photo unchanged except for lighting, glow, and color mood.
+
+Do not brighten the background. Preserve direct on-camera flash on skin with strong light-shadow contrast and natural texture. Upscale if blurred.
+
+Add diffused sunbeams striking the skin, creating a glowing highlight on cheekbones, nose bridge, lips, and hair strands. Maintain a clear separation between bright areas and soft, deep shadows to create a cinematic high-contrast mood.
+
+Inject subtle lens bloom, light haze, and a thin layer of atmospheric glow around the subject. Render skin with luminous translucency and a gentle peachy tone. Enhance stray hair strands backlit by flash.
+
+Upscale the image if blurred.
+
+Hard rule: Do not change the face and hairs of the subject.</div>
 
                 <button class="btn-copy" onclick="copyPrompt(this)">
                     <i class="fa-regular fa-copy"></i> Copy Prompt
